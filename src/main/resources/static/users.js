@@ -65,6 +65,7 @@ function renderUsersTable(users) {
         `;
     }
 
+    // Desktop table view
     const rows = users.map(user => `
         <tr data-user-id="${user.id}">
             <td class="checkbox-cell">
@@ -84,6 +85,45 @@ function renderUsersTable(users) {
         </tr>
     `).join('');
 
+    // Mobile select-all bar
+    const selectAllChecked = selectedUserIds.size === users.length ? 'checked' : '';
+    const mobileSelectAllBar = `
+        <div class="mobile-select-all-bar">
+            <label class="mobile-select-all-label">
+                <input type="checkbox" id="mobileSelectAll" ${selectAllChecked}>
+                Select All
+            </label>
+            <span class="mobile-selection-count">${selectedUserIds.size} selected</span>
+        </div>
+    `;
+
+    // Mobile card view
+    const cards = users.map(user => `
+        <div class="user-card" data-user-id="${user.id}">
+            <div class="user-card-checkbox">
+                <input type="checkbox" class="user-checkbox" data-user-id="${user.id}" ${selectedUserIds.has(String(user.id)) ? 'checked' : ''}>
+            </div>
+            <div class="user-card-header">
+                <div class="user-card-name">${escapeHtml(user.firstname || '')} ${escapeHtml(user.lastname || '')}</div>
+                <div class="user-card-id">ID: ${user.id !== undefined ? user.id : '-'}</div>
+            </div>
+            <div class="user-card-details">
+                <div class="user-card-detail">
+                    <span class="icon">📧</span>
+                    <span>${escapeHtml(user.email || '-')}</span>
+                </div>
+                <div class="user-card-detail">
+                    <span class="icon">📱</span>
+                    <span>${escapeHtml(user.phone || '-')}</span>
+                </div>
+            </div>
+            <div class="user-card-actions">
+                <button class="edit-btn" onclick="editUser('${user.id}')">✏️ Edit</button>
+                <button class="delete-btn" onclick="deleteUser('${user.id}')">🗑 Delete</button>
+            </div>
+        </div>
+    `).join('');
+
     return `
         <table class="users-table">
             <thead>
@@ -101,6 +141,10 @@ function renderUsersTable(users) {
                 ${rows}
             </tbody>
         </table>
+        <div class="mobile-card-view">
+            ${mobileSelectAllBar}
+            ${cards}
+        </div>
     `;
 }
 
@@ -323,7 +367,7 @@ document.body.addEventListener('change', function(e) {
             toggleUserSelection(userId, e.target.checked);
         }
     }
-    if (e.target.id === 'selectAll') {
+    if (e.target.id === 'selectAll' || e.target.id === 'mobileSelectAll') {
         toggleSelectAll(e.target.checked);
     }
 });
