@@ -1,5 +1,5 @@
 // API endpoint
-const API_ENDPOINT = 'https://userlogin-2r6h.onrender.com/users';
+const API_ENDPOINT = '/users';
 
 // Get user ID from URL query parameter
 function getUserIdFromUrl() {
@@ -37,7 +37,7 @@ async function fetchUser(userId) {
             method: 'GET',
             headers: headers,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'same-origin'
         });
 
         if (!response.ok) {
@@ -69,7 +69,7 @@ async function updateUser(userId, userData) {
             headers: headers,
             body: JSON.stringify(userData),
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'same-origin'
         });
 
         if (!response.ok) {

@@ -1,5 +1,5 @@
 // API endpoint for fetching all users
-const API_ENDPOINT = 'https://userlogin-2r6h.onrender.com/users';
+const API_ENDPOINT = '/users';
 
 // DOM Elements
 const usersContent = document.getElementById('usersContent');
@@ -38,7 +38,7 @@ async function fetchUsers() {
             method: 'GET',
             headers: headers,
             mode: 'cors',
-            credentials: 'include'
+            credentials: 'same-origin'
         });
 
         if (!response.ok) {
@@ -213,7 +213,7 @@ async function deleteSelectedUsers() {
                 method: 'DELETE',
                 headers: headers,
                 mode: 'cors',
-                credentials: 'include'
+                credentials: 'same-origin'
             });
 
             if (response.ok) {

@@ -142,7 +142,7 @@ for (const fieldName in fields) {
 }
 
 // API endpoint
-const API_ENDPOINT = 'https://userlogin-2r6h.onrender.com/users';
+const API_ENDPOINT = '/users';
 
 // Get CSRF token from cookie (Spring Boot default)
 function getCsrfToken() {
@@ -195,7 +195,7 @@ registrationForm.addEventListener('submit', async (e) => {
                 headers: headers,
                 body: JSON.stringify(formData),
                 mode: 'cors', // Enable CORS
-                credentials: 'include' // Include cookies for cross-origin requests
+                credentials: 'same-origin' // Send cookies only for same-origin requests
             });
 
             console.log('Response status:', response.status);
